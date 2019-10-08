@@ -1,0 +1,70 @@
+# MAKEFILE
+
+# ------ VARIABLES -------------------
+PYTHON3_BINARY=python3
+PREFIX=/usr/local/bin
+
+# ------ TARGETS ---------------------
+.PHONY: all clean realclean prep permissions install uninstall src/ssr.py src/atomicityChecker.py src/kmer-ssr.py src/kmer-ssr_filter.py src/kmer-ssr_sift.py src/kmer-ssr_sort.py
+
+all: prep bin/kmer-ssr bin/kmer-ssr_filter bin/kmer-ssr_sift bin/kmer-ssr_sort permissions
+
+clean:
+	@rm -rf bin/* || true
+	@if [ -e $(PREFIX)/kmer-ssr -a -r $(PREFIX)/kmer-ssr -a -w $(PREFIX)/kmer-ssr ] ; then rm -f $(PREFIX)/kmer-ssr || true; fi
+	@if [ -e $(PREFIX)/kmer-ssr_filter -a -r $(PREFIX)/kmer-ssr_filter -a -w $(PREFIX)/kmer-ssr_filter ] ; then rm -f $(PREFIX)/kmer-ssr_filter || true; fi
+	@if [ -e $(PREFIX)/kmer-ssr_sift -a -r $(PREFIX)/kmer-ssr_sift -a -w $(PREFIX)/kmer-ssr_sift ] ; then rm -f $(PREFIX)/kmer-ssr_sift || true; fi
+	@if [ -e $(PREFIX)/kmer-ssr_sort -a -r $(PREFIX)/kmer-ssr_sort -a -w $(PREFIX)/kmer-ssr_sort ] ; then rm -f $(PREFIX)/kmer-ssr_sort || true; fi
+	@chmod 640 src/* || true
+	@chmod 770 src/__pycache__ || true
+
+realclean: clean
+	@rm -rf bin src/__pycache__ src/*.pyc || true
+	@chmod 640 src/*.py || true
+
+prep:
+	@mkdir -p bin || true
+
+src/ssr.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+src/atomicityChecker.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+src/kmer-ssr.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+src/kmer-ssr_filter.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+src/kmer-ssr_sift.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+src/kmer-ssr_sort.py:
+	@$(PYTHON3_BINARY) -c 'import py_compile as pc; pc.compile("'$@'")'
+
+bin/kmer-ssr: src/kmer-ssr.py src/ssr.py src/atomicityChecker.py
+	@ln -s ../$< $@ 2> /dev/null || true
+
+bin/kmer-ssr_filter: src/kmer-ssr_filter.py src/ssr.py src/atomicityChecker.py
+	@ln -s ../$< $@ 2> /dev/null || true
+
+bin/kmer-ssr_sift: src/kmer-ssr_sift.py src/ssr.py
+	@ln -s ../$< $@ 2> /dev/null || true
+
+bin/kmer-ssr_sort: src/kmer-ssr_sort.py src/ssr.py
+	@ln -s ../$< $@ 2> /dev/null || true
+
+permissions:
+	@chmod 640 src/* || true
+	@chmod 770 src/__pycache__ || true
+	@chmod 750 src/kmer-ssr.py src/kmer-ssr_{filter,sift,sort}.py || true
+
+install:
+	@if [ -e bin/kmer-ssr -a -e bin/kmer-ssr_filter -a -e bin/kmer-ssr_sift -a -e bin/kmer-ssr_sort]; then cp bin/kmer-ssr bin/kmer-ssr_{filter,sift,sort} $(PREFIX) || true; else echo "ERROR: \`bin/kmer-ssr*' does not exist. Did you forget to run \`make' first?"; fi
+
+uninstall:
+	@if [ -e $(PREFIX)/kmer-ssr ]; then rm $(PREFIX)/kmer-ssr; fi
+	@if [ -e $(PREFIX)/kmer-ssr_filter ]; then rm $(PREFIX)/kmer-ssr_filter; fi
+	@if [ -e $(PREFIX)/kmer-ssr_sift ]; then rm $(PREFIX)/kmer-ssr_sift; fi
+	@if [ -e $(PREFIX)/kmer-ssr_sort ]; then rm $(PREFIX)/kmer-ssr_sort; fi

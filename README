@@ -1,0 +1,68 @@
+README
+======
+
+Table of Contents
+-----------------
+
+  I. Introduction
+ II. Installation Instructions
+III. Usage Instructions and Examples
+ IV. License
+  V. Funding and Acknowledgements
+ VI. Contributors
+VII. Contact
+
+
+I. Introduction
+---------------
+TODO
+
+See our paper in __journal__ for further information:
+    http://sub-domain.domain.tld/some/path/to/resource
+
+
+II. Installation Instructions
+-----------------------------
+To compile kmer-ssr, simply type `make'. The program will be in the `bin'
+directory. You must support Python 3.5.1+.
+
+To compile and install, type `make' followed by `make install'.  The binary
+will be in both the `bin' and `/usr/local/bin' directories (to change this,
+change the `PREFIX' variable in `Makefile').  
+
+To uninstall, type `make clean' and if installed with `make install', also type
+`make uninstall'.
+
+See `INSTALL' for further instructions, especially about the `PYTHON3_BINARY'
+variable.
+
+
+III. Usage Instructions and Examples
+-------------------------------------
+TODO
+
+
+IV. License
+-----------
+Please see `LICENSE'.
+
+
+V. Funding and Acknowledgements
+-------------------------------
+TODO
+
+
+VI. Contributors
+----------------
+Brandon Pickett (Github: @pickettbd) is the sole author of this software.
+
+
+VII. Contact
+------------
+For questions, comments, concerns, feature requests, suggestions, etc., please
+contact:
+
+Pery Ridge, Ph.D. -- perry.ridge@byu.edu
+
+Note: For usage questions, please consult section `III. Usage Instructions and
+Examples' first.

@@ -26,21 +26,25 @@ class Tree:
 
 	# "normal" "public" member functions
 	def getNewick(self):
-		return self.root.getNewick()
+		return self.root.getNewick() + ";\n"
 
 	def getJson(self):
-		return self.root.getJson()
+		return '{"name":"' + self.name + '","root":' + self.root.getJson() + '}'
+	
+	def getPrettyJson(self):
+		#return json.loads(self.getJson())
+		return '{\n\t"name": "' + self.name + '",\n\t"root":\n' + self.root.getPrettyJson(indent=2) + '\n}\n'
 
 	# "private" member functions
 	def __initializeNodes__(self, newick):
 		newick = self.__removeNewickComments__(newick).rstrip()
-		index = self.root.initialize(newick)
+		index = self.root.initializeNode(newick)
 
 		if index < len(newick):
 			if newick[index] == ';':
 				index += 1
 				newick = newick[index:]
-				if not newick.isspace():
+				if newick and not newick.isspace():
 					raise MalformedNewickTree(f"Reached end of tree and found semi-colon, but found 1 or more non-space characters after semi-colon.")
 			else:
 				raise MalformedNewickTree(f"Reached end of tree and expected a semi-colon, but found {newick[index]} instead.")
@@ -92,7 +96,7 @@ class Tree:
 	
 	# make str(some_node) meaningful
 	def __str__(self):
-		return f'\{ name: "{self.header}", root: {str(self.root)} \}'
+		return f'{{ name: "{self.header}", root: {str(self.root)} }}'
 	
 	# make print(some_node) meaningful
 	def __repr__(self):

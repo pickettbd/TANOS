@@ -155,14 +155,83 @@ class Node:
 	
 	# "normal" "public" member functions
 	def getNewick(self):
-		# TODO
+		nwk = []
+		if len(self.children):
+			nwk.append('(')
+			for i,child in enumerate(self.children):
+				if i > 0:
+					nwk.append(',')
+				nwk.append(child.getNewick())
+			nwk.append(')')
+		if self.label:
+			nwk.append(self.label)
+		if "branch_length" in self.metadata:
+			nwk.append(':')
+			nwk.append(str(self.metadata["branch_length"]))
+		return ''.join(nwk)
+
 
 	def getJson(self):
-		# TODO
+		j = [f'{{"label":"{self.label}","metadata":{{']
+		for i,k in enumerate(sorted(self.metadata.keys())):
+			if i > 0:
+				j.append(',')
+			j.append(f'"{k}":')
+			if type(self.metadata[k]) is str:
+				j.append(f'"{self.metadata[k]}"')
+			else:
+				j.append(f'{self.metadata[k]}')
+		j.append('},"children":[')
+		for i,child in enumerate(self.children):
+			if i > 0:
+				j.append(',')
+			j.append(child.getJson())
+		j.append(']}')
+		return ''.join(j)
+
+	
+	def getPrettyJson(self, indent=0):
+		tabs = ''.join(['\t'] * indent)
+		
+		# label
+		j = [f'{tabs}{{\n{tabs}\t"label": "{self.label}",\n{tabs}\t"metadata":']
+
+		# metadata
+		if len(self.metadata):
+			j.append(f'\n{tabs}\t\t{{\n')
+			for i,k in enumerate(sorted(self.metadata.keys())):
+				if i > 0:
+					j.append(',\n')
+				j.append(f'{tabs}\t\t\t"{k}":')
+				if type(self.metadata[k]) is str:
+					j.append(f'"{self.metadata[k]}"')
+				else:
+					j.append(f'{self.metadata[k]}')
+				j.append(f'\n{tabs}\t\t')
+		else:
+			j.append(" {")
+
+		j.append(f'}},\n{tabs}\t"children":')
+
+		# children
+		if len(self.children):
+			j.append(f'\n{tabs}\t\t[\n')
+			for i,child in enumerate(self.children):
+				if i > 0:
+					j.append(',\n')
+				j.append(child.getPrettyJson(indent=indent+3))
+			j.append(f'\n{tabs}\t\t')
+		else:
+			j.append(" [")
+		j.append(f']\n{tabs}}}')
+
+		# return
+		return ''.join(j)
+
 	
 	# make str(some_node) meaningful
 	def __str__(self):
-		return f'\{ label: "{self.label}", metadata: {str(self.metadata)}, children: {len(children)} \}'
+		return f'{{ label: "{self.label}", metadata: {str(self.metadata)}, children: {len(children)} }}'
 	
 	# make print(some_node) meaningful
 	def __repr__(self):

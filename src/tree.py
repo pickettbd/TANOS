@@ -101,8 +101,11 @@ class Tree:
 
 	# comparison operators
 	#def __lt__(self, other):
-	#	return self.root.__lt__(other)
+	#	return self.root.__lt__(other.root)
 	
+	def isEqualBasedOnSetOfLeafLabels(self, other):
+		return self.root.isEqualBasedOnSetOfLeafLabels(other.root)
+
 	# make str(some_node) meaningful
 	def __str__(self):
 		return f'{{ name: "{self.header}", root: {str(self.root)} }}'

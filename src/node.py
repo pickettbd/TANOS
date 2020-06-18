@@ -152,6 +152,18 @@ class Node:
 	# comparison operators
 	#def __lt__(self, other):
 	#	return False
+
+	def isEqualBasedOnSetOfLeafLabels(self, other):
+		#return frozen_set(self.getLeafLabels()) == frozen_set(other.getLeafLabels()) # it should already not have duplicates
+		return sorted(self.getLeafLabels()) == sorted(other.getLeafLabels()) # let's ignore order - it's easier
+		#my_labels = sorted(self.getLeafLabels())
+		#other_labels = sorted(other.getLeafLabels())
+		#if len(my_labels) == len(other_labels):
+		#	for mine,theirs in zip(my_labels,other_labels):
+		#		if mine != theirs:
+		#			return False
+		#		return True
+		#return False
 	
 	# "normal" "public" member functions
 	def isLeaf(self):
@@ -168,6 +180,7 @@ class Node:
 		else:
 			for child in self.children:
 				leaves.extend(child.getLeafLabels())
+		#assert sorted(list(frozen_set(leaves))) == sorted(leaves) # assuming the tree does _not_ have leaves w/ identical labels
 		return leaves
 	
 	# returns list of lists of leaf labels for each subtree, e.g., [ ["A"], ["B"], ["A", "B"], ["C"], ["A", "B", "C"], ... ]

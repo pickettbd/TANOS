@@ -154,6 +154,12 @@ class Node:
 	#	return False
 	
 	# "normal" "public" member functions
+	def isLeaf(self):
+		return not self.hasChildren()
+	
+	def hasChildren(self):
+		return bool(len(self.children))
+
 	def getNewick(self):
 		nwk = []
 		if len(self.children):

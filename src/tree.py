@@ -34,6 +34,9 @@ class Tree:
 	def getEachSubTreeLeafLabelSetStrs(self):
 		return self.root.getEachSubTreeLeafLabelSetStrs()
 
+	def containsSubtreeBasedOnSetOfLeafLabels(self, node):
+		return self.root.containsSubtreeBasedOnSetOfLeafLabels(node)
+
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
 

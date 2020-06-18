@@ -155,15 +155,18 @@ class Node:
 
 	def isEqualBasedOnSetOfLeafLabels(self, other):
 		#return frozen_set(self.getLeafLabels()) == frozen_set(other.getLeafLabels()) # it should already not have duplicates
-		return sorted(self.getLeafLabels()) == sorted(other.getLeafLabels()) # let's ignore order - it's easier
+		return self.isEqualBasedOnPreFetchedSetOfLeafLabels(sorted(other.getLeafLabels()))
 		#my_labels = sorted(self.getLeafLabels())
 		#other_labels = sorted(other.getLeafLabels())
 		#if len(my_labels) == len(other_labels):
 		#	for mine,theirs in zip(my_labels,other_labels):
 		#		if mine != theirs:
 		#			return False
-		#		return True
+		#	return True
 		#return False
+
+	def isEqualBasedOnPreFetchedSetOfLeafLabels(self, leaf_labels): # leaf_labels must be sorted
+		return sorted(self.getLeafLabels()) == leaf_labels
 	
 	# "normal" "public" member functions
 	def isLeaf(self):
@@ -172,8 +175,7 @@ class Node:
 	def hasChildren(self):
 		return bool(len(self.children))
 	
-	# returns list leaf labels, e.g., [ "A", "B", "C", ... ]
-	def getLeafLabels(self):
+	def getLeafLabels(self): # returns list leaf labels, e.g., [ "A", "B", "C", ... ]
 		leaves = []
 		if self.isLeaf():
 			leaves.append(self.label)
@@ -183,8 +185,7 @@ class Node:
 		#assert sorted(list(frozen_set(leaves))) == sorted(leaves) # assuming the tree does _not_ have leaves w/ identical labels
 		return leaves
 	
-	# returns list of lists of leaf labels for each subtree, e.g., [ ["A"], ["B"], ["A", "B"], ["C"], ["A", "B", "C"], ... ]
-	def getEachSubTreeLeafLabelSets(self):
+	def getEachSubTreeLeafLabelSets(self): # returns list of lists of leaf labels for each subtree, e.g., [ ["A"], ["B"], ["A", "B"], ["C"], ["A", "B", "C"], ... ]
 		leaves = []
 		if self.isLeaf():
 			leaves.append([self.label])
@@ -194,8 +195,7 @@ class Node:
 			leaves.append(self.getLeafLabels())
 		return leaves
 
-	# returns list of leaf labels for each subtree, e.g., [ "A", "B", "AB", "C", "ABC", ... ]
-	def getEachSubTreeLeafLabelSetStrs(self):
+	def getEachSubTreeLeafLabelSetStrs(self): # returns list of leaf labels for each subtree, e.g., [ "A", "B", "AB", "C", "ABC", ... ]
 		leaves = []
 		if self.isLeaf():
 			leaves.append(self.label)
@@ -204,6 +204,16 @@ class Node:
 				leaves.extend(child.getEachSubTreeLeafLabelSetStrs())
 			leaves.append(''.join(self.getLeafLabels()))
 		return leaves
+	
+	def containsSubtreeBasedOnSetOfLeafLabels(self, node):
+		subtree_of_interest = sorted(node.getLeafLabels())
+		return self.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(subtree_of_interest)
+		
+	def containsSubtreeBasedOnPreFetchedSetOfLeafLabels(self, leaf_labels): # leaf_labels must be sorted
+		for child in self.children:
+			if child.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(leaf_labels):
+				return True
+		return self.isEqualBasedOnPreFetchedSetOfLeafLabels(leaf_labels):
 
 	def getNewick(self):
 		nwk = []

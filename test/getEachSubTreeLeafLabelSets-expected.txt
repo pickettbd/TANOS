@@ -1,0 +1,11 @@
+A
+B
+AB
+D
+ABD
+F
+G
+FG
+I
+FGI
+ABDFGI

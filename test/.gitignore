@@ -1,5 +1,11 @@
 *
 
 !.gitignore
+!getEachSubTreeLeafLabelSets-in.nwk
+!getEachSubTreeLeafLabelSets-expected.txt
+!getEachSubTreeLeafLabelSets.py
+!getLeafLabels-in.nwk
+!getLeafLabels-expected.txt
+!getLeafLabels.py
 !io-in.nwk
 !io.py

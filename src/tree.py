@@ -27,6 +27,9 @@ class Tree:
 	# "normal" "public" member functions
 	def getLeafLabels(self):
 		return self.root.getLeafLabels()
+	
+	def getEachSubTreeLeafLabelSets(self):
+		return self.root.getEachSubTreeLeafLabelSets()
 
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"

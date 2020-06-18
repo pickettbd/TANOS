@@ -168,6 +168,20 @@ class Node:
 			for child in self.children:
 				leaves.extend(child.getLeafLabels())
 		return leaves
+	
+	def getEachSubTreeLeafLabelSets(self):
+		leaves = []
+		if self.isLeaf():
+			leaves.append([self.label])
+			print(leaves, file=sys.stderr)
+		else:
+			for child in self.children:
+				leaves.extend(child.getEachSubTreeLeafLabelSets())
+			leaves.append([])
+			for child in self.children:
+				leaves[-1].extend(child.getLeafLabels())
+			print(leaves, file=sys.stderr)
+		return leaves
 
 	def getNewick(self):
 		nwk = []

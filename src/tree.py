@@ -25,6 +25,9 @@ class Tree:
 		self.__initializeNodes__(newick)
 
 	# "normal" "public" member functions
+	def getLeafLabels(self):
+		return self.root.getLeafLabels()
+
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
 

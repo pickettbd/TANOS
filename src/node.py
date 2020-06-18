@@ -159,6 +159,15 @@ class Node:
 	
 	def hasChildren(self):
 		return bool(len(self.children))
+	
+	def getLeafLabels(self):
+		leaves = []
+		if self.isLeaf():
+			leaves.append(self.label)
+		else:
+			for child in self.children:
+				leaves.extend(child.getLeafLabels())
+		return leaves
 
 	def getNewick(self):
 		nwk = []

@@ -111,7 +111,7 @@ class Node:
 			else:
 				raise MalformedNewickTree("attempted to extract the end position of a quoted label from a newick string, but the starting position provided was not a quote")
 		else:
-			raise MalformedNewickTree("attempted to extract a the end position of a quoted label, but the newick string had <2 characters remaining")
+			raise MalformedNewickTree("attempted to extract the end position of a quoted label, but the newick string had <2 characters remaining")
 
 	def __getUnquotedNewickLabel__(self, newick, index=0):
 		starting_index = index # deep copy

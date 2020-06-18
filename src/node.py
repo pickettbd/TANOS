@@ -160,6 +160,7 @@ class Node:
 	def hasChildren(self):
 		return bool(len(self.children))
 	
+	# returns list leaf labels, e.g., [ "A", "B", "C", ... ]
 	def getLeafLabels(self):
 		leaves = []
 		if self.isLeaf():
@@ -169,6 +170,7 @@ class Node:
 				leaves.extend(child.getLeafLabels())
 		return leaves
 	
+	# returns list of lists of leaf labels for each subtree, e.g., [ ["A"], ["B"], ["A", "B"], ["C"], ["A", "B", "C"], ... ]
 	def getEachSubTreeLeafLabelSets(self):
 		leaves = []
 		if self.isLeaf():
@@ -176,11 +178,10 @@ class Node:
 		else:
 			for child in self.children:
 				leaves.extend(child.getEachSubTreeLeafLabelSets())
-			leaves.append([])
-			for child in self.children:
-				leaves[-1].extend(child.getLeafLabels())
+			leaves.append(self.getLeafLabels())
 		return leaves
 
+	# returns list of leaf labels for each subtree, e.g., [ "A", "B", "AB", "C", "ABC", ... ]
 	def getEachSubTreeLeafLabelSetStrs(self):
 		leaves = []
 		if self.isLeaf():

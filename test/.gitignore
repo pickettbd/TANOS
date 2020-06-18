@@ -1,11 +1,14 @@
 *
 
 !.gitignore
-!getEachSubTreeLeafLabelSets-in.nwk
+!getEachSubTreeLeafLabelSetStrs-expected.txt
+!getEachSubTreeLeafLabelSetStrs-in.nwk
+!getEachSubTreeLeafLabelSetStrs.py
 !getEachSubTreeLeafLabelSets-expected.txt
+!getEachSubTreeLeafLabelSets-in.nwk
 !getEachSubTreeLeafLabelSets.py
-!getLeafLabels-in.nwk
 !getLeafLabels-expected.txt
+!getLeafLabels-in.nwk
 !getLeafLabels.py
 !io-in.nwk
 !io.py

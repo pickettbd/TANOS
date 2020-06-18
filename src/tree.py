@@ -31,6 +31,9 @@ class Tree:
 	def getEachSubTreeLeafLabelSets(self):
 		return self.root.getEachSubTreeLeafLabelSets()
 
+	def getEachSubTreeLeafLabelSetStrs(self):
+		return self.root.getEachSubTreeLeafLabelSetStrs()
+
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
 

@@ -213,7 +213,7 @@ class Node:
 		for child in self.children:
 			if child.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(leaf_labels):
 				return True
-		return self.isEqualBasedOnPreFetchedSetOfLeafLabels(leaf_labels):
+		return self.isEqualBasedOnPreFetchedSetOfLeafLabels(leaf_labels)
 
 	def getNewick(self):
 		nwk = []
@@ -250,7 +250,6 @@ class Node:
 		j.append(']}')
 		return ''.join(j)
 
-	
 	def getPrettyJson(self, indent=0):
 		tabs = ''.join(['\t'] * indent)
 		
@@ -288,7 +287,18 @@ class Node:
 
 		# return
 		return ''.join(j)
-
+	
+	def getAscii(self, prefix="", children_prefix=""):
+		output = prefix + self.label + '\n'
+		if self.hasChildren():
+			for i in range(0, len(self.children) - 1, 1):
+				#next_prefix = children_prefix + "|-- "
+				#next_children_prefix = children_prefix + "|   "
+				#output += self.children[i].getAscii(prefix=next_prefix, children_prefix=next_children_prefix)
+				output += self.children[i].getAscii(prefix=f"{children_prefix}|-- ", children_prefix=f"{children_prefix}|   ")
+			#output += self.children[-1].getAscii(prefix="", children_prefix="")
+			output += self.children[-1].getAscii(prefix=f"{children_prefix}'-- ", children_prefix=f"{children_prefix}    ")
+		return output
 	
 	# make str(some_node) meaningful
 	def __str__(self):

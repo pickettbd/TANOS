@@ -1,6 +1,9 @@
 *
 
 !.gitignore
+!getAscii-expected.txt
+!getAscii-in.nwk
+!getAscii.py
 !getEachSubTreeLeafLabelSetStrs-expected.txt
 !getEachSubTreeLeafLabelSetStrs-in.nwk
 !getEachSubTreeLeafLabelSetStrs.py

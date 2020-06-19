@@ -46,6 +46,9 @@ class Tree:
 	def getPrettyJson(self):
 		#return json.loads(self.getJson())
 		return '{\n\t"name": "' + self.name + '",\n\t"root":\n' + self.root.getPrettyJson(indent=2) + '\n}\n'
+	
+	def getAscii(self, prefix="", children_prefix=""):
+		return self.root.getAscii(prefix=prefix, children_prefix=children_prefix)
 
 	# "private" member functions
 	def __initializeNodes__(self, newick):

@@ -214,6 +214,11 @@ class Node:
 			if child.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(leaf_labels):
 				return True
 		return self.isEqualBasedOnPreFetchedSetOfLeafLabels(leaf_labels)
+	
+	def generateNodesViaDepthFirstTraversal(self):
+		for child in self.children:
+			yield from child.generateNodesViaDepthFirstTraversal()
+		yield self
 
 	def getNewick(self):
 		nwk = []

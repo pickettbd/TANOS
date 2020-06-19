@@ -37,6 +37,9 @@ class Tree:
 	def containsSubtreeBasedOnSetOfLeafLabels(self, node):
 		return self.root.containsSubtreeBasedOnSetOfLeafLabels(node)
 
+	def generateNodesViaDepthFirstTraversal(self):
+		yield from self.root.generateNodesViaDepthFirstTraversal()
+
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
 

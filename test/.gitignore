@@ -1,6 +1,10 @@
 *
 
 !.gitignore
+!containsSubtreeBasedOnSetOfLeafLabels-expected.txt
+!containsSubtreeBasedOnSetOfLeafLabels-in1.nwk
+!containsSubtreeBasedOnSetOfLeafLabels-in2.nwk
+!containsSubtreeBasedOnSetOfLeafLabels.py
 !getAscii-expected.txt
 !getAscii-in.nwk
 !getAscii.py

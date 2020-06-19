@@ -1,0 +1,101 @@
+Tree #1 has the following topology:
+K
+|-- E
+|   |-- C
+|   |   |-- A
+|   |   '-- B
+|   '-- D
+'-- J
+    |-- H
+    |   |-- F
+    |   '-- G
+    '-- I
+
+#########################
+
+Tree #2 has the following topology:
+K
+|-- J
+|   |-- I
+|   |   |-- G
+|   |   '-- F
+|   '-- H
+'-- E
+    |-- D
+    '-- C
+        |-- B
+        '-- A
+
+#########################
+
+For each subtree in Tree #2, the tree topology will be displayed with the phrase
+'present' or 'not present' to indicate whether that subtree appears also in Tree #1
+
+#########################
+
+G: present
+G
+
+###
+F: present
+F
+
+###
+I: present
+I
+|-- G
+'-- F
+
+###
+H: not present
+H
+
+###
+J: not present
+J
+|-- I
+|   |-- G
+|   '-- F
+'-- H
+
+###
+D: present
+D
+
+###
+B: present
+B
+
+###
+A: present
+A
+
+###
+C: present
+C
+|-- B
+'-- A
+
+###
+E: present
+E
+|-- D
+'-- C
+    |-- B
+    '-- A
+
+###
+K: not present
+K
+|-- J
+|   |-- I
+|   |   |-- G
+|   |   '-- F
+|   '-- H
+'-- E
+    |-- D
+    '-- C
+        |-- B
+        '-- A
+
+###

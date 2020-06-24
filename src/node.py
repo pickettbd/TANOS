@@ -172,8 +172,14 @@ class Node:
 	def isLeaf(self):
 		return not self.hasChildren()
 	
-	def hasChildren(self):
+	def hasChildren(self): # true if 1+ children
 		return bool(len(self.children))
+	
+	def hasGrandChildren(self): # true if 1+ grandchildren
+		for child in self.children:
+			if child.hasChildren():
+				return True
+		return False
 	
 	def getLeafLabels(self): # returns list leaf labels, e.g., [ "A", "B", "C", ... ]
 		leaves = []
@@ -219,9 +225,22 @@ class Node:
 		for child in self.children:
 			yield from child.generateNodesViaDepthFirstTraversal()
 		yield self
-
-	def scoreResiliency(self, taxa_x_trees):
-		return
+	
+	def scoreResiliency(self, taxa_x_trees, meaningful=True):
+		score = 0
+		if meaningful and self.hasGrandChildren(): # nodes that are root or have no grandchildren have no meaningful resiliency score
+			taxa = sorted(self.getLeafLabels())
+			total_possible = 0
+			count = 0
+			for i in range(0, len(taxa), 1):
+				excluded_taxon = taxa[i]
+				included_taxa = taxa[:i] + taxa[i+1:]
+				total_possible += len(taxa_x_trees[excluded_taxon])
+				for tree in taxa_x_trees[excluded_taxon]:
+					if tree.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(included_taxa):
+						count += 1
+			score = float(count) / total_possible
+		self.metadata["taxa-resiliency"] = score
 	
 	def getNewick(self):
 		nwk = []

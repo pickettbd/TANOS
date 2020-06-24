@@ -119,8 +119,8 @@ def handleArgs():
 						" [out.json]\n \n")
 	output_group.add_argument("-p", "-op", "--output-json-pretty", dest="output_json_pretty", metavar="out_pretty.json", action="store", type=str, required=False, default="out_pretty.json", 
 						help="The output tree in json format. Each node will have a label (which may be empty),\n" 
-						"branch length (which may be empty), and metadata with name/value pairs. The taxon\n" 
-						"resiliency score will be assigned with the name \"taxon-resiliency\".\n" 
+						"branch length (which may be empty), and metadata with name/value pairs. The taxa\n" 
+						"resiliency score will be assigned with the name \"taxa-resiliency\".\n" 
 						"[out_pretty.json]\n \n")
 
 	# 	define misc. group options

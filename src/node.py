@@ -220,6 +220,9 @@ class Node:
 			yield from child.generateNodesViaDepthFirstTraversal()
 		yield self
 
+	def scoreResiliency(self, taxa_x_trees):
+		return
+	
 	def getNewick(self):
 		nwk = []
 		if len(self.children):

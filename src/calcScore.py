@@ -7,8 +7,14 @@ __version__ = "0.0.1-alpha"
 
 # ----------- IMPORTS ---------------------------- ||
 import sys
+import re
 import argparse
 from tree import Tree
+from pathlib import Path
+
+# ----------- CLASSES ---------------------------- ||
+class CalcScoreException(Exception):
+	pass
 
 # ---------- FUNCTIONS --------------------------- ||
 def handleArgs():
@@ -46,42 +52,12 @@ def handleArgs():
 
 	# 	define input group options
 	#		main tree
-	input_group.add_argument("-m", "-mt", "--main-tree", dest="main_tree", metavar="tree.nwk", action="store", nargs=1, type=str, required=False,  default="data/mainTree/tree.nwk", 
+	input_group.add_argument("-m", "-mt", "--main-tree", dest="main_tree", metavar="tree.nwk", action="store", type=str, required=False,  default="data/mainTree/tree.nwk", 
 						help="The main tree in Newick format for which you wish to determine the resiliency\n" 
 						"against the removal of taxa." 
 						" [data/mainTree/tree.nwk]\n \n")
-	#		jackknife alignments and trees <-- delete
 	#		jackknife trees
-	input_group.add_argument("-d", "-jd", "--jackknife-dir", dest="jack_dir", metavar="path/to/jackknife/", action="store", nargs=1, type=str, required=False, default="data/jackknife", 
-						help="The directory in which the jackknife data exists. Unless specified by other\n" 
-						"options, two subdirectories are expected: \"aln\" and \"tree\"." 
-						" [data/jackknife]\n \n")
-	#			jackknife alignments <-- delete
-	#input_group.add_argument("-a", "-ja", "--jackknife-aln", dest="jack_aln_dir", metavar="path/to/jackknife/aln/", action="store", nargs=1, type=str, required=False, default="data/jackknife/aln",  <-- delete
-	#					help="The directory in which the jackknife alignment data exists. The directory should\n" <-- delete
-	#					"contain one file per taxon in the main tree. Each file should be in fasta format.\n"  <-- delete
-	#					"Unless specified by other options, the file names should match the taxa names in\n" <-- delete
-	#					"the main tree file (case-sensitive!) and have the \".fa\" file extension (e.g.,\n" <-- delete
-	#					"Cignobilis.fa). This option overrides -jd/--jackknife-dir for the jackknife\n"  <-- delete
-	#					"alignment directory."  <-- delete
-	#					" [data/jackknife/aln]\n \n") <-- delete
-	#input_group.add_argument("-g", "--jackknife-aln-fofn", dest="jack_aln_fofn", metavar="path/to/alns.tsv", action="store", nargs=1, type=str, required=False, default=None,  <-- delete
-	#					help="Instead of using -d, and -a to provide the jackknifed alignments, you may use\n"  <-- delete
-	#					"this option to provide a list of filenames. The file must be in tab-separated\n"  <-- delete
-	#					"value (tsv) format. Exactly two columns must exist on every line. No header/title\n"  <-- delete
-	#					"line should exist. The first column should contain the taxon name\n"  <-- delete
-	#					"(case-sensitive!). The second column should contain the path (absolute -or-\n"  <-- delete
-	#					"relative to the directory from which the program is being run) to a jackknifed\n"  <-- delete
-	#					"alignment file in Fasta format. This option overrides -d, and -a for the\n"  <-- delete
-	#					"jackknife alignment files. The following is an example of how the file should\n"  <-- delete
-	#					"look:\n"  <-- delete
-	#					"\tCignobilis\tdata/jackknife/aln/Cignobilis.fa\n"  <-- delete
-	#					"\tRmuscosa\tdata/jackknife/aln/Rmuscosa.fa\n"  <-- delete
-	#					"\tAglossodonta\tdata/jackknife/aln/Aglossodonta.fa\n"  <-- delete
-	#					"\tOclarkiistomias\tdata/jackknife/aln/Oclarkiistomias.fa\n"  <-- delete
-	#					"\t...\n \n") <-- delete
-	#			jackknife trees <-- delete
-	input_group.add_argument("-t", "-jt", "--jackknife-tree", dest="jack_tree_dir", metavar="path/to/jackknife/tree/", action="store", nargs=1, type=str, required=False, default="data/jackknife/tree", 
+	input_group.add_argument("-t", "-jt", "--jackknife-tree", dest="jack_tree_dir", metavar="path/to/jackknife/tree/", action="store", type=str, required=False, default="data/jackknife/tree", 
 						help="The directory in which the jackknife tree data exists. The directory should\n"
 						"contain one subdirectory per taxon in the main tree. Each directory name should\n"
 						"match the taxon name from the main tree file (case-sensitive!). In turn, each\n"
@@ -91,26 +67,25 @@ def handleArgs():
 						"files should fit in a nice range from 1-${rep}, but that is not strictly\n"
 						"necessary. Using this option, the program will search for all files in the\n"
 						"directory specified by -jt/--jackknife-tree that match the reg. exp.\n"
-						"\"tree-\d+\.nwk\". This option overrides -jd/--jackknife-dir for the jackknife\n"
-						"tree directory." 
+						"\"tree-\d+\.nwk\"." 
 						" [data/jackknife/tree]\n \n")
-	input_group.add_argument("-e", "-te", "--tree-ext", dest="jack_tree_fn_ext", metavar=".ext", action="store", nargs=1, type=str, required=False, default=".nwk", 
-						help="When using -jd or -jt, the assumed filename extension for the tree files is\n"
-						"\".nwk\". If your files are named differently you may specify a different file\n"
+	input_group.add_argument("-e", "-te", "--tree-ext", dest="jack_tree_fn_ext", metavar=".ext", action="store", type=str, required=False, default="nwk", 
+						help="When using -jt, the assumed filename extension for the tree files is\n"
+						"\"nwk\". If your files are named differently you may specify a different file\n"
 						"extension here. This is useful if you used IQ-TREE to generate your trees as the\n"
 						"output Newick trees are in files with the extension \".treefile\". Note that this\n"
 						"changes only the end of the expected filename pattern. The beginning of the\n"
 						"filename must still match this reg. exp: \"tree-\d+\". For more control over the\n"
 						"filenames, you will need to use other options." 
-						" [.nwk]\n \n")
-	input_group.add_argument("-f", "--jackknife-tree-fofn", dest="jack_tree_fofn", metavar="path/to/trees.tsv", action="store", nargs=1, type=str, required=False, default=None, 
-						help="Instead of using -d, -t, and -e to provide the jackknifed trees, you may use this\n"
+						" [nwk]\n \n")
+	input_group.add_argument("-f", "--jackknife-tree-fofn", dest="jack_tree_fofn", metavar="path/to/trees.tsv", action="store", type=str, required=False, default=None, 
+						help="Instead of using -t and -e to provide the jackknifed trees, you may use this\n"
 						"option to provide a list of filenames. The file must be in tab-separated value\n"
 						"(tsv) format. Exactly two columns must exist on every line. No header/title line\n"
 						"should exist. The first column should contain the taxon name (case-sensitive!).\n"
 						"The second column should contain the path (absolute -or- relative to the\n"
 						"directory from which the program is being run) to a jackknifed tree file in\n"
-						"Newick format. This option overrides -d, -t, and -e for the jackknife tree files.\n"
+						"Newick format. This option overrides -t and -e for the jackknife tree files.\n"
 						"The following is an example of how the file should look:\n" 
 						"\tCignobilis\tdata/jackknife/tree/Cignobilis/tree-1.treefile\n" 
 						"\t...\n" 
@@ -128,7 +103,7 @@ def handleArgs():
 
 	# 	define output group options
 	#		newick format
-	output_group.add_argument("-n", "-on", "--output-nwk", dest="output_nwk", metavar="out.nwk", action="store", nargs=1, type=str, required=False, default="out.nwk", 
+	output_group.add_argument("-n", "-on", "--output-nwk", dest="output_nwk", metavar="out.nwk", action="store", type=str, required=False, default="out.nwk", 
 						help="The output tree in Newick format with the taxon resiliency score in a comment\n"
 						"after the branch length. To replace the branch length with the taxon resiliency\n"
 						"score, specify the flag -r/--replace-branch-len." 
@@ -137,12 +112,12 @@ def handleArgs():
 						help="Specify this flag to replace the branch length with the taxon resiliency score in\n" 
 						"the output Newick tree.\n \n")
 	#		json format
-	output_group.add_argument("-j", "-oj", "--output-json", dest="output_json", metavar="out.json", action="store", nargs=1, type=str, required=False, default="out.json", 
+	output_group.add_argument("-j", "-oj", "--output-json", dest="output_json", metavar="out.json", action="store", type=str, required=False, default="out.json", 
 						help="The output tree in json format. Each node will have a label (which may be empty),\n" 
 						"branch length (which may be empty), and metadata with name/value pairs. The taxon\n" 
 						"resiliency score will be assigned with the name \"taxon-resiliency\"." 
 						" [out.json]\n \n")
-	output_group.add_argument("-p", "-op", "--output-json-pretty", dest="output_json_pretty", metavar="out_pretty.json", action="store", nargs=1, type=str, required=False, default="out_pretty.json", 
+	output_group.add_argument("-p", "-op", "--output-json-pretty", dest="output_json_pretty", metavar="out_pretty.json", action="store", type=str, required=False, default="out_pretty.json", 
 						help="The output tree in json format. Each node will have a label (which may be empty),\n" 
 						"branch length (which may be empty), and metadata with name/value pairs. The taxon\n" 
 						"resiliency score will be assigned with the name \"taxon-resiliency\".\n" 
@@ -206,52 +181,158 @@ def handleArgs():
 		if args.display_version:
 			print(f"Version: {__version__}\n", file=sys.stdout)
 		sys.exit(0)
-	
-	#	mutually exclusive input options
+	else: # don't display some info, don't quit (immediately)
+		# sanity check on paths
+		if args.jack_tree_fofn is not None: # fofn is provided
+			p = Path(args.jack_tree_fofn)
+			if not (p.exists() and p.is_file()): # exists and is file?
+				raise CalcScoreException(f"ERROR: You provided -f \"{args.jack_tree_fofn}\", but it either did not exist or was not a regular file.")
+		else: # fofn not specificed
+			p = Path(args.jack_tree_dir)
+			if not (p.exists() and p.is_dir()): # exists and is dir?
+				raise CalcScoreException(f"ERROR: Problem with argument used for -t, \"{args.jack_tree_dir}\" either did not exist or was not a directory.")
 
 
 	# return the parsed arguments object
 	return args
 
-# ----------- CLASSES ---------------------------- ||
-# None
+def createTreeFromNewickFile(filename, treename):
+	nwk = ''
+	with open(filename, 'r') as ifd:
+		for line in ifd:
+			nwk += line.rstrip('\n')
+	return Tree(newick=nwk, name=treename)
+
+def getJackknifedTreesFileNames(tree_dir, tree_ext, trees_fofn):
+	taxa_x_fns = {}
+	if trees_fofn is not None: # user specified the fofn
+		with open(trees_fofn, 'r') as ifd:
+			for line in ifd:
+				fields = line.rstrip('\n').split('\t')
+				taxon = fields[0]
+				fn = fields[1]
+				if not taxon in taxa_x_fns:
+					taxa_x_fns[taxon] = []
+				taxa_x_fns[taxon].append(fn)
+
+	else: # user did not specify the fofn
+		match_pattern = r"tree-[0-9]+\." + tree_ext
+		# we assume tree_dir exists and is a directory (handled during handleArgs)
+		d = Path(tree_dir)
+		for sd in d.iterdir(): # search for sub directories (one level, assume one dir per taxa)
+			if sd.is_dir(): # look only at dirs
+				taxon = sd.name
+				for f in sd.iterdir(): # search for files in the dir
+					if f.is_file() and re.match(match_pattern, f.name) is not None: # look only at files. they must match f"tree-\d+.{tree_ext}"
+						if not taxon in taxa_x_fns:
+							taxa_x_fns[taxon] = []
+						taxa_x_fns[taxon].append(str(f.resolve()))
+	
+	return taxa_x_fns
+
+def generateReplicatesHistogram(reps):
+	# do the counting
+	counts = {}
+	for rep in reps:
+		if not rep in counts:
+			counts[rep] = 0
+		counts[rep] += 1
+	
+	# do some formatting
+	counts_max_width = len(str(max(counts.keys())))
+	left_pad_char = ' '
+	sep = "|"
+	tick_mark = '='
+	line_fmt = f"{{c:{left_pad_char}{counts_max_width}}}{sep}{{t}} ({{f}})\n".format # c: count, t: ticks, f: freq
+
+	# create the visual repr of the hist
+	output = ""
+	for count in sorted(counts.keys()):
+		freq = counts[count]
+		ticks = tick_mark * freq
+		output += line_fmt(c=count, t=ticks, f=freq)
+	
+	return output
+
+def validateAndResolveJackknifedTrees(taxa_x_fns, taxa):
+	# are all taxa present in taxa_x_fns?
+	taxa_set = frozenset(taxa_x_fns.keys())
+	for taxon in taxa:
+		if not taxon in taxa_set:
+			raise CalcScoreException("ERROR: One or more taxa from the original/main tree were not present in the\njackknifed trees dir.")
+
+	# are all taxa in taxa_x_fns present in taxa?
+	taxa_set = frozenset(taxa)
+	for taxon in taxa_x_fns.keys():
+		if not taxon in taxa_set:
+			raise CalcScoreException("ERROR: One or more taxa from the jackknifed trees dir were not present in in the\noriginal/main tree.")
+	
+	# do all taxa have equal number of replicates?
+	reps = [len(taxa_x_fns[taxon]) for taxon in taxa_set]
+	first_len = reps[0]
+	if not all(rep == first_len for rep in reps):
+		hist = generateReplicatesHistogram(reps)
+		raise CalcScoreException(f"ERROR: All taxa should have the same number of replicates. Here is the replicate\nhistogram:\n{hist}\n)")
+	
+	# do all the files exist?
+	for taxon in taxa_x_fns.keys():
+		fns = taxa_x_fns[taxon]
+		for i,fn in enumerate(fns):
+			try:
+				p = Path(fn)
+				p = p.resolve()
+				if not (p.exists() and p.is_file()):
+					raise CalcScoreException(f"ERROR: \"{fn}\" was did not exist or was not a regular file (taxon: {taxon}).")
+				taxa_x_fns[taxon][i] = str(p)
+			except:
+				raise CalcScoreException(f"ERROR: while testing if \"{fn}\" was valid for {taxon}, failed to create or\nresolve Path object.")
+
+def sortJackknifedTrees(taxa_x_fns):
+	for taxon in taxa_x_fns.keys():
+		taxa_x_fns[taxon].sort(key=lambda x: int(re.sub(r"^.*(\d+).*$", r"\1", Path(x).stem)))
+
+def buildJackknifedTreesFromFiles(taxa_x_fns):
+	taxa_x_trees = {}
+	for taxon in taxa_x_fns.keys():
+		if not taxon in taxa_x_trees:
+			taxa_x_tress[taxon] = []
+		fns = taxa_x_fns[taxon]
+		for i,fn in enumerate(fns):
+			try:
+				taxa_x_trees[taxon].append(createTreeFromNewickFile(fn, f"{taxon}-{i}"))
+			except:
+				raise CalcScoreException(f"ERROR: failed to create Tree object from newick tree file \"{fn}\" (taxon: {taxon})")
+
+	return taxa_x_trees
 
 # ------------- MAIN ----------------------------- ||
 if __name__ == "__main__":
 	# handle the arguments
 	args = handleArgs()
-	sys.exit(0)
-	newickfn = "containsSubtreeBasedOnSetOfLeafLabels-in1.nwk"
-	newickfn2 = "containsSubtreeBasedOnSetOfLeafLabels-in2.nwk"
 
-	nwk = ''
-	with open(newickfn, 'r') as ifd:
-		for line in ifd:
-			nwk += line.rstrip('\n')
+	# read in the main tree
+	mt = createTreeFromNewickFile(args.main_tree, "main")
+
+	# get a list of taxa
+	taxa = sorted(mt.getLeafLabels())
+
+	# obtain list of jackknifed tree files mapped to taxa names
+	taxa_x_fns = getJackknifedTreesFileNames(args.jack_tree_dir, args.jack_tree_fn_ext, args.jack_tree_fofn)
 	
-	t = Tree(newick=nwk, name='x')
+	# validate and resolve jackknifed trees (paths, not tree objects)
+	validateAndResolveJackknifedTrees(taxa_x_fns, taxa) # side-effect (arg1), no change (arg2), no return
 
-	nwk = ''
-	with open(newickfn2, 'r') as ifd:
-		for line in ifd:
-			nwk += line.rstrip('\n')
+	# sort jackknifed trees (individually sort each path list) (arguably not necessary, but it feels nice)
+	sortJackknifedTrees(taxa_x_fns) # side-effect, no return
 
-	t2 = Tree(newick=nwk, name='y')
+	# build jackknifed trees from file
+	taxa_x_trees = buildJackknifedTreesFromFiles(taxa_x_fns)
 
-	with open("containsSubtreeBasedOnSetOfLeafLabels-out.txt", 'w') as ofd:
-		ofd.write("Tree #1 has the following topology:\n")
-		ofd.write(t.getAscii())
-		ofd.write("\n#########################\n")
-		ofd.write("\nTree #2 has the following topology:\n")
-		ofd.write(t2.getAscii())
-		ofd.write("\n#########################\n")
-		ofd.write("\nFor each subtree in Tree #2, the tree topology will be displayed with the phrase\n'present' or 'not present' to indicate whether that subtree appears also in Tree #1\n")
-		ofd.write("\n#########################\n\n")
-		for node in t2.generateNodesViaDepthFirstTraversal():
-			status = "present" if t.containsSubtreeBasedOnSetOfLeafLabels(node) else "not present"
-			ofd.write(node.label + ": " + status + '\n')
-			ofd.write(node.getAscii())
-			ofd.write("\n###\n")
+	# compare
+	mt.scoreResiliency(taxa_x_trees) # changes mt, but not taxa_x_trees
+
+	# generate output
+	# TODO
 	
 else:
 	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")

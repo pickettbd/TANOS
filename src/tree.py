@@ -39,6 +39,11 @@ class Tree:
 
 	def generateNodesViaDepthFirstTraversal(self):
 		yield from self.root.generateNodesViaDepthFirstTraversal()
+	
+	def scoreResiliency(self, taxa_x_trees):
+		#self.root.scoreResiliency(taxa_x_trees)
+		for node in self.generateNodesViaDepthFirstTraversal():
+			node.scoreResiliency(taxa_x_trees)
 
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"

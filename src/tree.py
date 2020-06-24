@@ -117,7 +117,7 @@ class Tree:
 
 	# make str(some_node) meaningful
 	def __str__(self):
-		return f'{{ name: "{self.header}", root: {str(self.root)} }}'
+		return f'{{ name: "{self.name}", root: {str(self.root)} }}'
 	
 	# make print(some_node) meaningful
 	def __repr__(self):

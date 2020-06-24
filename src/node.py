@@ -123,12 +123,12 @@ class Node:
 	def __getFromNewickAndPossiblySetBranchLength__(self, newick, index=0):
 		if newick[index] == ':':
 			# branch length present
-			i += 1 # get past the ':'
+			index += 1 # get past the ':'
 			index = self.__consumeNewickWhitespace__(newick, index=index)
 			if index < len(newick):
 				branch_length_str = ''
 				while index < len(newick) and not ( newick[index].isspace() or newick[index] in '),;' ):
-					branch_lenth_str += newick[index]
+					branch_length_str += newick[index]
 					index += 1
 				# index is either past end (we didn't find a semi-colon),
 				# or it is a right paren, comma, semi-colon, or space
@@ -307,7 +307,7 @@ class Node:
 	
 	# make str(some_node) meaningful
 	def __str__(self):
-		return f'{{ label: "{self.label}", metadata: {str(self.metadata)}, children: {len(children)} }}'
+		return f'{{ label: "{self.label}", metadata: {str(self.metadata)}, children: {len(self.children)} }}'
 	
 	# make print(some_node) meaningful
 	def __repr__(self):

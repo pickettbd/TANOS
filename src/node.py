@@ -332,7 +332,7 @@ class Node:
 					j.append(f'"{self.metadata[k]}"')
 				else:
 					j.append(f'{self.metadata[k]}')
-				j.append(f'\n{tabs}\t\t')
+			j.append(f'\n{tabs}\t\t')
 		else:
 			j.append(" {")
 

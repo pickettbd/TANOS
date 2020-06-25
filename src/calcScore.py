@@ -47,7 +47,8 @@ def handleArgs():
 
 	# define argument groups
 	input_group = parser.add_argument_group("Input Options", "These options affect how input files are found and/or interpreted.")
-	output_group = parser.add_argument_group("Output Options", "These options affect which and how output files are generated.")
+	output_group = parser.add_argument_group("Output Options", "These options affect which and how output files are generated. Specify an output" 
+																" filename as \"\" to skip outputting it.")
 	misc_group = parser.add_argument_group("Misc. Options", "")
 
 	# 	define input group options
@@ -182,7 +183,7 @@ def handleArgs():
 			print(f"Version: {__version__}\n", file=sys.stdout)
 		sys.exit(0)
 	else: # don't display some info, don't quit (immediately)
-		# sanity check on paths
+		# sanity check on input paths
 		if args.jack_tree_fofn is not None: # fofn is provided
 			p = Path(args.jack_tree_fofn)
 			if not (p.exists() and p.is_file()): # exists and is file?
@@ -191,6 +192,22 @@ def handleArgs():
 			p = Path(args.jack_tree_dir)
 			if not (p.exists() and p.is_dir()): # exists and is dir?
 				raise CalcScoreException(f"ERROR: Problem with argument used for -t, \"{args.jack_tree_dir}\" either did not exist or was not a directory.")
+
+		# sanity check on output files
+		for ofn in (args.output_nwk, args.output_json, args.output_json_pretty):
+			if ifn != '':
+				p = Path(ofn)
+				p = p.resolve()
+				if p.exists():
+					if not p.is_file():
+						raise CalcScoreException(f"ERROR: Output file \"{ofn}\" exists and is not a regular file. It cannot be\noverwritten since it is not a regular file.")
+				else:
+					d = p.parent
+					if d.exists():
+						if not d.is_dir():
+							raise CalcScoreException(f"ERROR: Output file \"{ofn}\" cannot be created because its theoretical parent\ndirectory already exists as a non-directory file.")
+					else:
+						d.mkdir(parents=True)
 
 
 	# return the parsed arguments object
@@ -332,7 +349,25 @@ if __name__ == "__main__":
 	mt.scoreResiliency(taxa_x_trees) # changes mt, but not taxa_x_trees
 
 	# generate output
-	# TODO
+	#	json
+	#		ugly
+	if args.output_json:
+		with open(args.output_json, 'w') as ofd:
+			ofd.write(mt.getJson())
+
+	#		pretty
+	if args.output_json_pretty:
+		with open(args.output_json_pretty, 'w') as ofd:
+			ofd.write(mt.getPrettyJson())
+
+	#	nwk
+	if args.output_nwk:
+		with open(args.output_nwk, 'w') as ofd:
+			if args.replace_branch_lens:
+				mt.replaceBranchLenWithOtherValue("taxa-resiliency")
+				ofd.write(mt.getNewick())
+			else:
+				ofd.write(mt.getNewickWithCommentedMetadata())
 	
 else:
 	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")

@@ -45,9 +45,16 @@ class Tree:
 		for node in self.generateNodesViaDepthFirstTraversal():
 			node.scoreResiliency(taxa_x_trees)
 		self.root.scoreResiliency(taxa_x_trees, meaningful=False) # force root score to 0
+	
+	def replaceBranchLenWithOtherValue(self, meta_key):
+		for node in self.generateNodesViaDepthFirstTraversal():
+			node.replaceBranchLenWithOtherValue(meta_key)
 
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
+	
+	def getNewickWithCommentedMetadata(self):
+		return self.root.getNewickWithCommentedMetadata() + ";\n"
 
 	def getJson(self):
 		return '{"name":"' + self.name + '","root":' + self.root.getJson() + '}'

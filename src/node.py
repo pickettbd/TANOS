@@ -241,6 +241,10 @@ class Node:
 						count += 1
 			score = float(count) / total_possible
 		self.metadata["taxa-resiliency"] = score
+
+	def replaceBranchLenWithOtherValue(self, meta_key):
+		if meta_key in self.metadata:
+			self.metadata["branch_length"] = self.metadata[meta_key]
 	
 	def getNewick(self):
 		nwk = []
@@ -258,6 +262,40 @@ class Node:
 			nwk.append(str(self.metadata["branch_length"]))
 		return ''.join(nwk)
 
+	def getNewickWithCommentedMetadata(self):
+		nwk = []
+		if len(self.children):
+			nwk.append('(')
+			for i,child in enumerate(self.children):
+				if i > 0:
+					nwk.append(',')
+				nwk.append(child.getNewick())
+			nwk.append(')')
+		if self.label:
+			nwk.append(self.label)
+		if "branch_length" in self.metadata:
+			nwk.append(':')
+			nwk.append(str(self.metadata["branch_length"]))
+		if len(self.metadata):
+			meta_keys = sorted(self.metadata.keys())
+			try:
+				meta_keys.remove("branch_length")
+			except ValueError:
+				pass
+			if len(self.metadata):
+				nwk.append("[")
+				for i,meta_key in enumerate(meta_keys):
+					if i > 0:
+						nwk.append(',')
+					meta_value = self.metadata[meta_key]
+					value_quote = ''
+					try:
+						float(meta_value)
+					except ValueError:
+						value_quote = '"'
+					nwk.append(f"\"{meta_key}\"={value_quote}{meta_value}{value_quote}")
+				nwk.append("]")
+		return ''.join(nwk)
 
 	def getJson(self):
 		j = [f'{{"label":"{self.label}","metadata":{{']

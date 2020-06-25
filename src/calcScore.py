@@ -195,7 +195,7 @@ def handleArgs():
 
 		# sanity check on output files
 		for ofn in (args.output_nwk, args.output_json, args.output_json_pretty):
-			if ifn != '':
+			if ofn != '':
 				p = Path(ofn)
 				p = p.resolve()
 				if p.exists():
@@ -312,7 +312,7 @@ def buildJackknifedTreesFromFiles(taxa_x_fns):
 	taxa_x_trees = {}
 	for taxon in taxa_x_fns.keys():
 		if not taxon in taxa_x_trees:
-			taxa_x_tress[taxon] = []
+			taxa_x_trees[taxon] = []
 		fns = taxa_x_fns[taxon]
 		for i,fn in enumerate(fns):
 			try:
@@ -363,7 +363,7 @@ if __name__ == "__main__":
 	#	nwk
 	if args.output_nwk:
 		with open(args.output_nwk, 'w') as ofd:
-			if args.replace_branch_lens:
+			if args.replace_branch_len:
 				mt.replaceBranchLenWithOtherValue("taxa-resiliency")
 				ofd.write(mt.getNewick())
 			else:

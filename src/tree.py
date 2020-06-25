@@ -37,6 +37,9 @@ class Tree:
 	def containsSubtreeBasedOnSetOfLeafLabels(self, node):
 		return self.root.containsSubtreeBasedOnSetOfLeafLabels(node)
 
+	def containsSubtreeBasedOnPreFetchedSetOfLeafLabels(self, leaf_labels): # leaf_labels must be sorted
+			return self.root.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(leaf_labels)
+
 	def generateNodesViaDepthFirstTraversal(self):
 		yield from self.root.generateNodesViaDepthFirstTraversal()
 	

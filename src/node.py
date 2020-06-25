@@ -264,20 +264,24 @@ class Node:
 
 	def getNewickWithCommentedMetadata(self):
 		nwk = []
+		# recursively get children
 		if len(self.children):
 			nwk.append('(')
 			for i,child in enumerate(self.children):
 				if i > 0:
 					nwk.append(',')
-				nwk.append(child.getNewick())
+				nwk.append(child.getNewickWithCommentedMetadata())
 			nwk.append(')')
+		# get this node's label (may be empty string, which is fine)
 		if self.label:
 			nwk.append(self.label)
+		# get the branch length, if one is stored
 		if "branch_length" in self.metadata:
 			nwk.append(':')
 			nwk.append(str(self.metadata["branch_length"]))
+		# get the other metadata (everything except branch length), if present, in a comment
 		if len(self.metadata):
-			meta_keys = sorted(self.metadata.keys())
+			meta_keys = sorted(list(self.metadata.keys()))
 			try:
 				meta_keys.remove("branch_length")
 			except ValueError:
@@ -299,7 +303,7 @@ class Node:
 
 	def getJson(self):
 		j = [f'{{"label":"{self.label}","metadata":{{']
-		for i,k in enumerate(sorted(self.metadata.keys())):
+		for i,k in enumerate(sorted(list(self.metadata.keys()))):
 			if i > 0:
 				j.append(',')
 			j.append(f'"{k}":')
@@ -324,7 +328,7 @@ class Node:
 		# metadata
 		if len(self.metadata):
 			j.append(f'\n{tabs}\t\t{{\n')
-			for i,k in enumerate(sorted(self.metadata.keys())):
+			for i,k in enumerate(sorted(list(self.metadata.keys()))):
 				if i > 0:
 					j.append(',\n')
 				j.append(f'{tabs}\t\t\t"{k}":')

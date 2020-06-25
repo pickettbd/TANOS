@@ -256,7 +256,7 @@ def generateReplicatesHistogram(reps):
 		counts[rep] += 1
 	
 	# do some formatting
-	counts_max_width = len(str(max(counts.keys())))
+	counts_max_width = len(str(max(list(counts.keys()))))
 	left_pad_char = ' '
 	sep = "|"
 	tick_mark = '='
@@ -264,7 +264,7 @@ def generateReplicatesHistogram(reps):
 
 	# create the visual repr of the hist
 	output = ""
-	for count in sorted(counts.keys()):
+	for count in sorted(list(counts.keys())):
 		freq = counts[count]
 		ticks = tick_mark * freq
 		output += line_fmt(c=count, t=ticks, f=freq)
@@ -273,7 +273,7 @@ def generateReplicatesHistogram(reps):
 
 def validateAndResolveJackknifedTrees(taxa_x_fns, taxa):
 	# are all taxa present in taxa_x_fns?
-	taxa_set = frozenset(taxa_x_fns.keys())
+	taxa_set = frozenset(list(taxa_x_fns.keys()))
 	for taxon in taxa:
 		if not taxon in taxa_set:
 			raise CalcScoreException("ERROR: One or more taxa from the original/main tree were not present in the\njackknifed trees dir.")

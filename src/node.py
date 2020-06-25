@@ -240,6 +240,8 @@ class Node:
 					if tree.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(included_taxa):
 						count += 1
 			score = float(count) / total_possible
+			if score == 1 or count == 0:
+				score = int(score)
 		self.metadata["taxa-resiliency"] = score
 
 	def replaceBranchLenWithOtherValue(self, meta_key):

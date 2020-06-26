@@ -251,7 +251,7 @@ class Node:
 	def replaceInternalLabelWithOtherValue(self, meta_key):
 		if self.hasChildren():
 			if meta_key in self.metadata:
-				self.label = self.metadata[meta_key]
+				self.label = str(self.metadata[meta_key])
 			else:
 				self.label = ''
 	

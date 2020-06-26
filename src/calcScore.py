@@ -373,7 +373,7 @@ if __name__ == "__main__":
 	if args.output_nwk:
 		with open(args.output_nwk, 'w') as ofd:
 			if args.replace_branch_len or args.replace_internal_labels:
-				if args.replace_internal_labels:
+				if args.replace_branch_len:
 					mt.replaceBranchLenWithOtherValue("taxa-resiliency")
 				if args.replace_internal_labels:
 					mt.replaceInternalLabelsWithOtherValue("taxa-resiliency")

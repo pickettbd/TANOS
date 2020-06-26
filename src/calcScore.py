@@ -53,12 +53,12 @@ def handleArgs():
 
 	# 	define input group options
 	#		main tree
-	input_group.add_argument("-m", "-mt", "--main-tree", dest="main_tree", metavar="tree.nwk", action="store", type=str, required=False,  default="data/mainTree/tree.nwk", 
+	input_group.add_argument("-m", "--main-tree", dest="main_tree", metavar="tree.nwk", action="store", type=str, required=False,  default="data/mainTree/tree.nwk", 
 						help="The main tree in Newick format for which you wish to determine the resiliency\n" 
 						"against the removal of taxa." 
 						" [data/mainTree/tree.nwk]\n \n")
 	#		jackknife trees
-	input_group.add_argument("-t", "-jt", "--jackknife-tree", dest="jack_tree_dir", metavar="path/to/jackknife/tree/", action="store", type=str, required=False, default="data/jackknife/tree", 
+	input_group.add_argument("-t", "--jackknife-tree", dest="jack_tree_dir", metavar="path/to/jackknife/tree/", action="store", type=str, required=False, default="data/jackknife/tree", 
 						help="The directory in which the jackknife tree data exists. The directory should\n"
 						"contain one subdirectory per taxon in the main tree. Each directory name should\n"
 						"match the taxon name from the main tree file (case-sensitive!). In turn, each\n"
@@ -70,7 +70,7 @@ def handleArgs():
 						"directory specified by -jt/--jackknife-tree that match the reg. exp.\n"
 						"\"tree-\d+\.nwk\"." 
 						" [data/jackknife/tree]\n \n")
-	input_group.add_argument("-e", "-te", "--tree-ext", dest="jack_tree_fn_ext", metavar=".ext", action="store", type=str, required=False, default="nwk", 
+	input_group.add_argument("-e", "--tree-ext", dest="jack_tree_fn_ext", metavar=".ext", action="store", type=str, required=False, default="nwk", 
 						help="When using -jt, the assumed filename extension for the tree files is\n"
 						"\"nwk\". If your files are named differently you may specify a different file\n"
 						"extension here. This is useful if you used IQ-TREE to generate your trees as the\n"
@@ -104,21 +104,30 @@ def handleArgs():
 
 	# 	define output group options
 	#		newick format
-	output_group.add_argument("-n", "-on", "--output-nwk", dest="output_nwk", metavar="out.nwk", action="store", type=str, required=False, default="out.nwk", 
+	output_group.add_argument("-n", "--output-nwk", dest="output_nwk", metavar="out.nwk", action="store", type=str, required=False, default="out.nwk", 
 						help="The output tree in Newick format with the taxon resiliency score in a comment\n"
 						"after the branch length. To replace the branch length with the taxon resiliency\n"
-						"score, specify the flag -r/--replace-branch-len." 
+						"score, specify the flag -b/--replace-branch-len. To replace the label of the\n" 
+						"internal nodes with the taxa resiliency score, specify the flag\n" 
+						"-s/--replace-label. Use of either -b or -s will prevent comments from being\n" 
+						"output." 
 						" [out.nwk]\n \n")
-	output_group.add_argument("-r", "-rb", "--replace-branch-len", dest="replace_branch_len", action="store_true", required=False, 
+	output_group.add_argument("-b", "--replace-branch-len", dest="replace_branch_len", action="store_true", required=False, 
 						help="Specify this flag to replace the branch length with the taxon resiliency score in\n" 
-						"the output Newick tree.\n \n")
+						"the output Newick tree. It probably does not make sense to use this in\n" 
+						"conjunction with \"-s\", though it is functionally possible.\n \n")
+	output_group.add_argument("-s", "--replace-label", dest="replace_internal_labels", action="store_true", required=False, 
+						help="Specify this flag to replace the internal node's labels with the taxon resiliency\n" 
+						"score in the output Newick tree. If \"-s\" seems inobvious for this functionality,\n" 
+						"think \"--replace-sobriquet\". It probably does not make sense to use this in\n" 
+						"conjunction with \"-b\", though it is functionally possible.\n \n")
 	#		json format
-	output_group.add_argument("-j", "-oj", "--output-json", dest="output_json", metavar="out.json", action="store", type=str, required=False, default="out.json", 
+	output_group.add_argument("-j", "--output-json", dest="output_json", metavar="out.json", action="store", type=str, required=False, default="out.json", 
 						help="The output tree in json format. Each node will have a label (which may be empty),\n" 
 						"branch length (which may be empty), and metadata with name/value pairs. The taxon\n" 
 						"resiliency score will be assigned with the name \"taxon-resiliency\"." 
 						" [out.json]\n \n")
-	output_group.add_argument("-p", "-op", "--output-json-pretty", dest="output_json_pretty", metavar="out_pretty.json", action="store", type=str, required=False, default="out_pretty.json", 
+	output_group.add_argument("-p", "--output-json-pretty", dest="output_json_pretty", metavar="out_pretty.json", action="store", type=str, required=False, default="out_pretty.json", 
 						help="The output tree in json format. Each node will have a label (which may be empty),\n" 
 						"branch length (which may be empty), and metadata with name/value pairs. The taxa\n" 
 						"resiliency score will be assigned with the name \"taxa-resiliency\".\n" 
@@ -363,8 +372,11 @@ if __name__ == "__main__":
 	#	nwk
 	if args.output_nwk:
 		with open(args.output_nwk, 'w') as ofd:
-			if args.replace_branch_len:
-				mt.replaceBranchLenWithOtherValue("taxa-resiliency")
+			if args.replace_branch_len or args.replace_internal_labels:
+				if args.replace_internal_labels:
+					mt.replaceBranchLenWithOtherValue("taxa-resiliency")
+				if args.replace_internal_labels:
+					mt.replaceInternalLabelsWithOtherValue("taxa-resiliency")
 				ofd.write(mt.getNewick())
 			else:
 				ofd.write(mt.getNewickWithCommentedMetadata())

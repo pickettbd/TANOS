@@ -53,6 +53,10 @@ class Tree:
 		for node in self.generateNodesViaDepthFirstTraversal():
 			node.replaceBranchLenWithOtherValue(meta_key)
 
+	def replaceInternalLabelsWithOtherValue(self, meta_key):
+		for node in self.generateNodesViaDepthFirstTraversal():
+			node.replaceInternalLabelWithOtherValue(meta_key)
+
 	def getNewick(self):
 		return self.root.getNewick() + ";\n"
 	

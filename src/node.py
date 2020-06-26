@@ -248,6 +248,13 @@ class Node:
 		if meta_key in self.metadata:
 			self.metadata["branch_length"] = self.metadata[meta_key]
 	
+	def replaceInternalLabelWithOtherValue(self, meta_key):
+		if self.hasChildren():
+			if meta_key in self.metadata:
+				self.label = self.metadata[meta_key]
+			else:
+				self.label = ''
+	
 	def getNewick(self):
 		nwk = []
 		if len(self.children):

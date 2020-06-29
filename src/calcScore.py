@@ -1,16 +1,19 @@
 #! /bin/env python3
 
-__author__ = "Brandon Pickett"
-__copyright_owner__ = "Brandon Pickett"
-__copyright_year__ = "2019"
-__version__ = "0.0.1-alpha"
-
 # ----------- IMPORTS ---------------------------- ||
 import sys
 import re
 import argparse
 from tree import Tree
 from pathlib import Path
+
+# ----------- GLOBALS ---------------------------- ||
+__author__ = "Brandon Pickett"
+__copyright_owner__ = "Brandon Pickett"
+__copyright_year__ = "2019"
+__version__ = ""
+with open(Path(__file__).parent.parent.resolve().joinpath('VERSION'), mode='r') as ifd:
+	__version__ = ifd.readline().rstrip('\n')
 
 # ----------- CLASSES ---------------------------- ||
 class CalcScoreException(Exception):
@@ -19,7 +22,7 @@ class CalcScoreException(Exception):
 # ---------- FUNCTIONS --------------------------- ||
 def handleArgs():
 	# define the main argument parser
-	parser = argparse.ArgumentParser(prog="calcScore.py", add_help=False, allow_abbrev=True, 
+	parser = argparse.ArgumentParser(prog=sys.argv[0], add_help=False, allow_abbrev=True, 
 									formatter_class=argparse.RawTextHelpFormatter, 
 									description="Calculate the taxa resiliency for a provided tree. In effect, the question is\n" 
 									"\"how resilient is the tree topology to the removal of taxa?\" To determine this,\n" 
@@ -332,7 +335,7 @@ def buildJackknifedTreesFromFiles(taxa_x_fns):
 	return taxa_x_trees
 
 # ------------- MAIN ----------------------------- ||
-if __name__ == "__main__":
+def main():
 	# handle the arguments
 	args = handleArgs()
 
@@ -381,6 +384,8 @@ if __name__ == "__main__":
 			else:
 				ofd.write(mt.getNewickWithCommentedMetadata())
 	
+if __name__ == "__main__":
+	main()
 else:
 	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")
 	sys.exit(1)

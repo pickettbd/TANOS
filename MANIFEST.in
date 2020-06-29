@@ -1,0 +1,16 @@
+# include some things
+include INSTALL LICENSE README VERSION
+include setup.py MANIFEST.in
+graft src
+
+# do not include the tests as they are rather informal
+prune test
+
+# do not include the .git directories or .gitignore files
+prune .git
+global-exclude .gitignore
+
+# remove "compiled" python files
+prune **/__pycache__
+global-exclude *.py[cod]
+

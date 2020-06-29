@@ -6,7 +6,7 @@ Table of Contents
 
   I. Introduction
  II. Installation Instructions
-III. Usage Instructions and Examples
+III. Usage Instructions
  IV. License
   V. Funding and Acknowledgements
  VI. Contributors
@@ -23,23 +23,13 @@ See our paper in __journal__ for further information:
 
 II. Installation Instructions
 -----------------------------
-To compile kmer-ssr, simply type `make'. The program will be in the `bin'
-directory. You must support Python 3.5.1+.
+This package is written in Python. You must have a version of Python that
+supports f-strings (3.6+). This package also depends on the following
+Python modules: sys, re, argparse, and pathlib.
 
-To compile and install, type `make' followed by `make install'.  The binary
-will be in both the `bin' and `/usr/local/bin' directories (to change this,
-change the `PREFIX' variable in `Makefile').  
-
-To uninstall, type `make clean' and if installed with `make install', also type
-`make uninstall'.
-
-See `INSTALL' for further instructions, especially about the `PYTHON3_BINARY'
-variable.
-
-
-III. Usage Instructions and Examples
+III. Usage Instructions
 -------------------------------------
-TODO
+Please run `calcScore.py -h' or `calcScore.py --help'.
 
 
 IV. License
@@ -64,5 +54,5 @@ contact:
 
 Pery Ridge, Ph.D. -- perry.ridge@byu.edu
 
-Note: For usage questions, please consult section `III. Usage Instructions and
-Examples' first.
+Note: For usage questions, please consult section `III. Usage Instructions'
+first.

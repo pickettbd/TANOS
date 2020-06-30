@@ -4,7 +4,7 @@ __author__ = "Brandon Pickett"
 
 # ----------- IMPORTS ---------------------------- ||
 import sys
-from node import Node,MalformedNewickTree
+from .node import Node,MalformedNewickTree
 
 # ---------- FUNCTIONS --------------------------- ||
 

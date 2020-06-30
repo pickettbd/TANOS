@@ -4,8 +4,8 @@
 import sys
 import re
 import argparse
-from tree import Tree
 from pathlib import Path
+from .tree import Tree
 
 # ----------- GLOBALS ---------------------------- ||
 __author__ = "Brandon Pickett"

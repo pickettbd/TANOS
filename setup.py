@@ -83,7 +83,7 @@ setup(
     #
     # This field corresponds to the "Home-Page" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#home-page-optional
-    url='https://bitbucket.org/pickettbd/taxonresiliency',  # Optional
+    url='https://github.com/pickettbd/taxonResiliency',  # Optional
 
     # This should be your name or the name of the organization which owns the
     # project.
@@ -139,15 +139,7 @@ setup(
 	# include package data
 	include_package_data=True,
 
-    # You can just specify package directories manually here if your project is
-    # simple. Or you can use find_packages().
-    #
-    # Alternatively, if you just want to distribute a single Python file, use
-    # the `py_modules` argument instead as follows, which will expect a file
-    # called `my_module.py` to exist:
-    #
-    #   py_modules=["my_module"],
-    #
+	# find packages/modules/etc.
     packages=find_packages(where='src'),  # Required
 
     # Specify which Python versions you support. In contrast to the
@@ -167,39 +159,8 @@ setup(
 	# setup_requires
 	setup_requires=["pathlib"],  # Optional
 
-    # List additional groups of dependencies here (e.g. development
-    # dependencies). Users will be able to install these using the "extras"
-    # syntax, for example:
-    #
-    #   $ pip install sampleproject[dev]
-    #
-    # Similar to `install_requires` above, these must be valid existing
-    # projects.
-    #extras_require={  # Optional
-    #    'dev': ['check-manifest'],
-    #    'test': ['coverage'],
-    #},
-
-    # If there are data files included in your packages that need to be
-    # installed, specify them here.
-    #package_data={  # Optional
-    #    'sample': ['package_data.dat'],
-    #},
-
-    # Although 'package_data' is the preferred approach, in some case you may
-    # need to place data files outside of your packages. See:
-    # http://docs.python.org/distutils/setupscript.html#installing-additional-files
-    #
-    # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    #data_files=[('my_data', ['data/data_file'])],  # Optional
-
     # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # `pip` to create the appropriate form of executable for the target
-    # platform.
-    #
-    # For example, the following would provide a command called `sample` which
-    # executes the function `main` from this package when invoked:
+    # "scripts" keyword.
     entry_points={  # Optional
         'console_scripts': [
             'taxaResil=taxaResiliency.calcScore:main'
@@ -207,18 +168,10 @@ setup(
     },
 
     # List additional URLs that are relevant to your project as a dict.
-    #
-    # This field corresponds to the "Project-URL" metadata fields:
-    # https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
-    #
-    # Examples listed include a pattern for specifying where the package tracks
-    # issues, where the source is hosted, where to say thanks to the package
-    # maintainers, and where to support the project financially. The key is
-    # what's used to render the link text on PyPI.
     project_urls={  # Optional
-        #'Bug Reports': 'https://github.com/pypa/sampleproject/issues',
+        'Source': 'https://github.com/pickettbd/taxonResiliency',
+        'Bug Reports': 'https://github.com/pickettbd/taxonResiliency/issues',
         #'Funding': 'https://donate.pypi.org',
-        #'Say Thanks!': 'http://saythanks.io/to/pickettbd',
-        'Source': 'https://bitbucket.org/pickettbd/taxonresiliency'
+        'Buy me a soda!': 'http://buymeacoff.ee/pickettbd'
     }
 )

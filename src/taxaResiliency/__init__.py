@@ -1,1 +1,1 @@
-import .calcScore
+from .calcScore import *

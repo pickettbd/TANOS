@@ -386,7 +386,7 @@ def main():
 	
 if __name__ == "__main__":
 	main()
-else:
-	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")
-	sys.exit(1)
+#else:
+#	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")
+#	sys.exit(1)
 

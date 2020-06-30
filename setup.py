@@ -202,7 +202,7 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'taxaResil=calcScore:main'
+            'taxaResil=taxaResiliency.calcScore:main'
         ]
     },
 

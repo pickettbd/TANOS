@@ -44,7 +44,6 @@ class Tree:
 		yield from self.root.generateNodesViaDepthFirstTraversal()
 	
 	def scoreResiliency(self, taxa_x_trees):
-		#self.root.scoreResiliency(taxa_x_trees)
 		for node in self.generateNodesViaDepthFirstTraversal():
 			node.scoreResiliency(taxa_x_trees)
 		self.root.scoreResiliency(taxa_x_trees, meaningful=False) # force root score to 0

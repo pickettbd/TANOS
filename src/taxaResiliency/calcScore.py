@@ -4,6 +4,7 @@
 import sys
 import re
 import argparse
+import pkgutil
 from pathlib import Path
 from .tree import Tree
 
@@ -11,9 +12,7 @@ from .tree import Tree
 __author__ = "Brandon Pickett"
 __copyright_owner__ = "Brandon Pickett"
 __copyright_year__ = "2019"
-__version__ = ""
-with open(Path(__file__).parent.parent.parent.resolve().joinpath('VERSION'), mode='r') as ifd:
-	__version__ = ifd.readline().rstrip('\n')
+__version__ = str(pkgutil.get_data(__package__, "VERSION").decode(encoding="UTF-8")).rstrip('\n')
 
 # ----------- CLASSES ---------------------------- ||
 class CalcScoreException(Exception):
@@ -386,7 +385,3 @@ def main():
 	
 if __name__ == "__main__":
 	main()
-#else:
-#	sys.stderr.write("ERROR: This is not a module, it is meant to run directly -- not imported!\n")
-#	sys.exit(1)
-

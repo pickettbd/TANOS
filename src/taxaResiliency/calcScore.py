@@ -21,31 +21,10 @@ class CalcScoreException(Exception):
 # ---------- FUNCTIONS --------------------------- ||
 def handleArgs():
 	# define the main argument parser
-	parser = argparse.ArgumentParser(prog=sys.argv[0], add_help=False, allow_abbrev=True, 
+	parser = argparse.ArgumentParser(prog=Path(sys.argv[0]).name, add_help=False, allow_abbrev=True, 
 									formatter_class=argparse.RawTextHelpFormatter, 
-									description="Calculate the taxa resiliency for a provided tree. In effect, the question is\n" 
-									"\"how resilient is the tree topology to the removal of taxa?\" To determine this,\n" 
-									"we remove a taxon from the alignment and build a new tree, comparing it to the\n" 
-									"original tree. To avoid anomalies, a new tree is built multiple times (say 50).\n" 
-									"This is process is repeated for each taxon. Thus, if 100 taxa are in a given\n" 
-									"tree and 50 replicates are performed for the removal of each taxon then 5,000\n" 
-									"new trees are built. This package assumes the following has been performed:\n" 
-									"\t1- The original alignment of all taxa\n" 
-									"\t2- A tree built with all taxa\n" 
-									"\t3- \"jackknifing\" the alignment (making one copy per taxon in the tree,\n" 
-									"\t   minus that taxon)\n" 
-									"\t4- New trees built using the \"jackknifed\" alignments with a\n" 
-									"\t   pre-determined level of replication\n" 
-									"This package compares the \"jackknifed\" trees (trees missing one taxon) with the\n" 
-									"original tree. The effect on various clades in the original tree is quantified\n" 
-									"and each node receives a score in the output tree. The score is meaningless for\n" 
-									"the root node, leaf nodes, and parent of leaf nodes.\n" 
-									"The program must have access to all the relevant trees (i.e., the original/main\n" 
-									"tree and the \"jackknifed\" trees) and a mapping of which trees are associated\n" 
-									"with which taxa. A default directory structure and file naming scheme is assumed.\n" 
-									"Some program arguments change the assumptions about the directory structure\n" 
-									"and/or file naming scheme. If your files are organized differently, the best\n" 
-									"choice is to provide a list of file names with the associated taxa names.")
+									description="Calculate the taxa resiliency for a provided tree. Please see the README file\n" 
+									"distributed with this projects repository for further explanation.\n")
 
 	# define argument groups
 	input_group = parser.add_argument_group("Input Options", "These options affect how input files are found and/or interpreted.")
@@ -160,12 +139,6 @@ def handleArgs():
 		if args.display_license:
 			print("License:\n" 
 				f"Copyright (c) {__copyright_year__} {__copyright_owner__}\n" 
-				"\n" 
-				"All rights reserved. Written permission is required before any\n" 
-				"portion of this project may be used.\n" 
-				"\n" 
-				"This work will likely be released under an MIT license in the\n" 
-				"future. If that occurs, the license will likely look like this:\n" 
 				"\n" 
 				"=================================================================\n" 
 				"Permission is hereby granted, free of charge, to any person\n" 

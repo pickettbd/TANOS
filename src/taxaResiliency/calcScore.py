@@ -12,7 +12,7 @@ __author__ = "Brandon Pickett"
 __copyright_owner__ = "Brandon Pickett"
 __copyright_year__ = "2019"
 __version__ = ""
-with open(Path(__file__).parent.parent.resolve().joinpath('VERSION'), mode='r') as ifd:
+with open(Path(__file__).parent.parent.parent.resolve().joinpath('VERSION'), mode='r') as ifd:
 	__version__ = ifd.readline().rstrip('\n')
 
 # ----------- CLASSES ---------------------------- ||

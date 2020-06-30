@@ -136,6 +136,9 @@ setup(
     # `src/`, it is necessary to specify the `package_dir` argument.
     package_dir={'': 'src'},  # Optional
 
+	# include package data
+	include_package_data=True,
+
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
     #

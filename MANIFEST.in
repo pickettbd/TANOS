@@ -1,5 +1,5 @@
 # include some things
-include INSTALL LICENSE README.md VERSION
+include LICENSE README.md VERSION
 include setup.py MANIFEST.in
 graft src
 

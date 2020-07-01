@@ -377,7 +377,7 @@ class Node:
 			#output += self.children[-1].getAscii(prefix="", children_prefix="")
 			output += self.children[-1].getAscii(prefix=f"{children_prefix}'-- ", children_prefix=f"{children_prefix}    ")
 		return output
-	
+
 	# make str(some_node) meaningful
 	def __str__(self):
 		return f'{{ label: "{self.label}", metadata: {str(self.metadata)}, children: {len(self.children)} }}'

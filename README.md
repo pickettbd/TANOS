@@ -1,12 +1,12 @@
 # README
 
 ## Table of Contents
-   [I. Introduction](#I.-Introduction)
-  [II. Installation Instructions](#II.-Installation-Instructions)
- [III. Usage Instructions](#III.-Usage-Instructions)
-  [IV. License](#IV.-License)
-  [V. Contributors](#V.-Contributors)
- [VI. Citation](#VI.-Citation)
+   [I. Introduction](#I.-Introduction)<br>
+  [II. Installation Instructions](#II.-Installation-Instructions)<br>
+ [III. Usage Instructions](#III.-Usage-Instructions)<br>
+  [IV. License](#IV.-License)<br>
+  [V. Contributors](#V.-Contributors)<br>
+ [VI. Citation](#VI.-Citation)<br>
 [VII. Contact](#VII.-Contact)
 
 
@@ -35,7 +35,7 @@ Instructions](#III.-Usage-Instructions) for details.
 We are in the process of publishing a paper describing this work. Once
 available, we will provide relevant details here:
 
-See our paper in [_journal_](#README) for further information:
+See our paper in [_journal_](#README) for further information:<br>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>[https://sub-domain.domain.tld/some/path/to/resource](#README)
 
 

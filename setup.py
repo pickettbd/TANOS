@@ -15,7 +15,7 @@ __author__ = "Brandon Pickett"
 __author_email__ = "pickettbd@byu.edu"
 # long description
 long_description = ''
-with open(here.joinpath('README'), encoding='utf-8', mode='r') as f:
+with open(here.joinpath('README.md'), encoding='utf-8', mode='r') as f:
     long_description = f.read()
 
 
@@ -76,8 +76,7 @@ setup(
     #
     # This field corresponds to the "Description-Content-Type" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#description-content-type-optional
-    #long_description_content_type='text/markdown',  # Optional (see note above)
-    long_description_content_type='text/plain',  # Optional (see note above)
+    long_description_content_type='text/markdown',  # Optional (see note above)
 
     # This should be a valid link to your project's main homepage.
     #

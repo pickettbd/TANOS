@@ -1,13 +1,13 @@
 # README
 
 ## Table of Contents
-   [I. Introduction](#I.-Introduction)<br>
-  [II. Installation Instructions](#II.-Installation-Instructions)<br>
- [III. Usage Instructions](#III.-Usage-Instructions)<br>
-  [IV. License](#IV.-License)<br>
-  [V. Contributors](#V.-Contributors)<br>
- [VI. Citation](#VI.-Citation)<br>
-[VII. Contact](#VII.-Contact)
+   [I. Introduction](#i-introduction)<br>
+  [II. Installation Instructions](#ii-installation-instructions)<br>
+ [III. Usage Instructions](#iii-usage-instructions)<br>
+  [IV. License](#iv-license)<br>
+  [V. Contributors](#v-contributors)<br>
+ [VI. Citation](#vi-citation)<br>
+[VII. Contact](#vii-contact)
 
 
 ## I. Introduction
@@ -30,13 +30,13 @@ tree and the "jackknifed" trees) and a mapping of which trees are associated
 with which taxa. A default directory structure and file naming scheme is assumed.
 These assumptions can be modified to some degree, or bypassed entirely, with
 certain command-line arguments. Please consult the section [III. Usage
-Instructions](#III.-Usage-Instructions) for details.
+Instructions](#iii-usage-instructions) for details.
 
 We are in the process of publishing a paper describing this work. Once
 available, we will provide relevant details here:
 
-See our paper in [_journal_](#README) for further information:<br>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>[https://sub-domain.domain.tld/some/path/to/resource](#README)
+See our paper in [_journal_](#readme) for further information:<br>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>[https://sub-domain.domain.tld/some/path/to/resource](#readme)
 
 
 ## II. Installation Instructions
@@ -76,5 +76,5 @@ For questions, comments, concerns, feature requests, suggestions, etc., please
 open an issue on Github.
 
 **Note:** Before asking for help, please ensure you (a) are using the latest
-official release and (b) consult first the section [III. Usage Instructions](#III.-Usage-Instructions).
+official release and (b) consult first the section [III. Usage Instructions](#iii-usage-instructions).
 

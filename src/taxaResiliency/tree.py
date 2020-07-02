@@ -75,32 +75,28 @@ class Tree:
 	def getMermaid(self, replace_internal=False):
 		#return "graph LR:\n" + self.root.getMermaid()
 		mmd = "graph LR\n"
-		internal_ids = []
 		leaf_ids = []
 		long_ids = {}
 		gfa = ''
 		i = 0
 		for node in self.generateNodesViaDepthFirstTraversal():
-			long_ids[node._id] = str(i)
+			long_ids[str(id(node))] = str(i)
 			node_label = node.label if node.label else " "
-			if nodes[i].isLeaf():
+			if node.isLeaf():
 				mmd += '\t' + str(i) + "[" + node_label + "]\n"
 				leaf_ids.append(i)
 			else:
 				if replace_internal and "taxa-resiliency" in node.metadata:
 					node_label = str(node.metadata["taxa-resiliency"])
 				mmd += '\t' + str(i) + "((" + node_label + "))\n"
-				internal_ids.append(i)
 				for child in node.children:
-					gfa += '\t' + str(i) + " --- " + long_ids[child._id] + '\n'
+					gfa += '\t' + str(i) + " --- " + long_ids[str(id(child))] + '\n'
 			i += 1
 		mmd += gfa
-		for j in range(1, len(node.children) + 1):
-			gfa += '\t' + str(i) + "---" + str(dfs_ids[-j]) + '\n'
 		mmd += "\tclassDef nodes fill:#eee,stroke:#fff,stroke-width:0px,color:black;\n"
 		mmd += "\tclassDef leaf-nodes fill:#fff;\n"
-		mmd += "\tclass " + ','.join(map(str, internal_ids)) + "nodes;\n"
-		mmd += "\tclass " + ','.join(map(str, leaf_ids)) + "leaf-nodes;\n"
+		mmd += "\tclass " + ','.join(map(str, range(0, i))) + " nodes;\n"
+		mmd += "\tclass " + ','.join(map(str, leaf_ids)) + " leaf-nodes;\n"
 		return mmd
 
 	# "private" member functions

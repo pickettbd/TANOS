@@ -229,9 +229,7 @@ class Node:
 	def scoreResiliency(self, taxa_x_trees, meaningful=True):
 		score = 0
 		if meaningful: # root has no meaningful resiliency score
-			if self.hasGrandChildren(): # nodes that have no grandchildren have no meaningful resiliency score
-				score = 1
-			else:
+			if self.hasGrandChildren():
 				taxa = sorted(self.getLeafLabels())
 				total_possible = 0
 				count = 0
@@ -243,6 +241,8 @@ class Node:
 						if tree.containsSubtreeBasedOnPreFetchedSetOfLeafLabels(included_taxa):
 							count += 1
 				score = float(count) / total_possible
+			else:
+				score = 1 # nodes that have _no_ grandchildren have no meaningful resiliency score
 			if score == 1 or count == 0:
 				score = int(score)
 		self.metadata["taxa-resiliency"] = score

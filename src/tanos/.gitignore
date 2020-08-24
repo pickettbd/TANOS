@@ -1,0 +1,5 @@
+*.pyc
+__pycache__
+*.tsv
+*.fasta
+*.egg-info

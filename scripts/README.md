@@ -10,22 +10,24 @@ First, note that these scripts assume a very specific directory structure. Befor
 you do anything, you should create a new project directory and create this
 directory stucture. The directory structure looks like this:
 
+```
 |-- data
 |   |-- jackknife
 |   |   |-- aln
-|   |   \`-- tree
+|   |   `-- tree
 |   |       |-- Taxon_1
 |   |       |-- Taxon_2
 |   |       |-- Taxon_3
 |   |       |-- ...
 |   |       |-- ...
 |   |       |-- ...
-|   |       \`-- Taxon_N
+|   |       `-- Taxon_N
 |   |-- mainTree
 |   |-- modelTest
-|   \`-- orig
+|   `-- orig
 |-- job_files
-\`-- scripts
+`-- scripts
+```
 
 You can create this directory structure with the following simple commands:
 

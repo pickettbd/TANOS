@@ -11,11 +11,11 @@
 
 
 ## I. Introduction
-In phylogenetic trees, assessing the stability of a node is paramount to having
+In phylogenetics, assessing the stability of a node is paramount to having
 confidence in the quality of the topology. Several strategies exist to evaluate
 a node, with bootstrap support being particularly popular. Most methods rely on
 how consistently characters from the input data matrix are in a given state to
-judge the node. We seek to evaluate the stability of the node by determining how
+assess the node. We seek to evaluate the stability of the node by determining how
 resilient nodes are to the removal of taxa. This package can calculate the taxa
 resiliency for a provided tree. To determine this, one must remove a taxon from
 the alignment (jackknife sampling) and build a new tree, comparing it to the
@@ -23,12 +23,12 @@ original tree. To avoid anomalies, a new tree must be built multiple times (say
 50). This process must be repeated for each taxon. Thus, if 100 taxa are in a
 given tree and 50 replicates are performed for the removal of each taxon then
 5,000 new trees are built. These new trees can be provided with the original tree
-to our package for comparison to determine how frequently different clades appear.
-The intent is to assign a value to each node, similar to bootstrapping. A value
-of 1 indicates 100% of sampled trees includes the grouping in that clade (sans
-the one taxon intentionally removed). Valid values fit in the range [0,1]. Note
-that this value has no meaning for leaf nodes, parents of leaf nodes, and the
-root node.
+to our package for comparison to determine how robust a given clade is to varying
+sampling. The intent is to assign a value to each node, similar to bootstrapping.
+A value of 1 indicates 100% of sampled trees includes the grouping in that clade
+(sans the one taxon intentionally removed). Valid values fit in the range [0,1].
+Note that this value has no meaning for leaf nodes, parents of leaf nodes, and
+the root node.
 
 Please note that this package assumes the following has already been performed:
 
@@ -47,7 +47,7 @@ using [IQ-TREE](http://www.iqtree.org) is also provided. Note that these are
 simply example scripts, not fully-tested programs; modifications will be required
 for your system and situation, especially if you intend to use an alternate
 directory structure, tree inference software, or grid control engine. Please note
-that if you installed tanos with pip, you will not see these scripts as they are
+that if you installed TANOS with pip, you will not see these scripts as they are
 not included in the PyPI manifest; you will need to download the repo from GitHub
 to have access to them. Please see the
 [README](https://github.com/pickettbd/tanos/blob/master/scripts/README.md) file
@@ -96,7 +96,7 @@ Until a version of the paper is available, we ask that you cite the Github
 repository. Thereafter, you will be able to include a citation following
 this general form:
 
-> Powell GS, Pickett BD, Martin GJ, Whiting MF, Ridge PG, Bybee SM. Paper title. _journal_. Year. Volume(Issue):pages.
+> Powell GS, Pickett BD, Ridge PG, Martin GJ, Whiting MF, Bybee SM. Paper title. _journal_. Year. Volume(Issue):pages.
 
 
 ## VII. Contact

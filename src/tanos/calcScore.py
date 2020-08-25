@@ -139,7 +139,7 @@ def handleArgs():
 			print("Citation:\n" 
 				"Please include a link to this repository and the following citation:\n" 
 				"\n" 
-				"Powell GS, Pickett BD, Martin GJ, Whiting MF, Ridge PG, Bybee SM. Paper title. _journal_. Year.\n" 
+				"Powell GS, Pickett BD, Ridge PG, Martin GJ, Whiting MF, Bybee SM. Paper title. _journal_. Year.\n" 
 				"\tVolume(Issue):pages.\n", 
 				file=sys.stdout)
 		if args.display_license:

@@ -153,7 +153,8 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=["sys", "re", "pkgutil", "argparse", "pathlib"],  # Optional
+    #install_requires=[],  # Optional
+    #tanos relies on these libraries, which are all part of the python std. lib.: ["sys", "re", "pkgutil", "argparse", "pathlib"]
 
 	# setup_requires
 	setup_requires=["pathlib"],  # Optional

@@ -68,7 +68,7 @@ See our paper in [_journal_](#readme) for further information:<br>
 
 
 ## II. Installation Instructions
-This package is written in [Python](https://www.python.org). You must have a version of Python (v3.6+) that supports [f-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings). This package also depends on the following Python modules: sys, re, pkgutil, argparse, and pathlib, which are all included by default in most Python installations. Installation may be accomplished using pip like this:
+This package is written in [Python](https://www.python.org). You must have a version of Python (v3.6+) that supports [f-strings](https://docs.python.org/3/reference/lexical_analysis.html#f-strings). This package also depends on the following Python modules: sys, re, pkgutil, argparse, and pathlib, which are all included in the Python Standard Library. Installation may be accomplished using pip like this:
 
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`pip install tanos`
 

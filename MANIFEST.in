@@ -3,6 +3,11 @@ include LICENSE README.md VERSION
 include setup.py MANIFEST.in
 graft src
 
+# do not include the scripts because they show only
+# an example of how to generate the needed input
+# for this package
+prune scripts
+
 # do not include the tests as they are rather informal
 prune test
 

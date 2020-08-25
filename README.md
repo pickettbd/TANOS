@@ -49,7 +49,9 @@ for your system and situation, especially if you intend to use an alternate
 directory structure, tree inference software, or grid control engine. Please note
 that if you installed tanos with pip, you will not see these scripts as they are
 not included in the PyPI manifest; you will need to download the repo from GitHub
-to have access to them.
+to have access to them. Please see the
+[README](https://github.com/pickettbd/tanos/blob/master/scripts/README.md) file
+in the scripts directory for additional details.
 
 This program must have access to all the relevant trees (_i.e._, the original/main
 tree and the "jackknifed" trees) and a mapping of which trees are associated

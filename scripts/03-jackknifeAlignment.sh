@@ -26,7 +26,7 @@ CWD_check
 # define key variables
 DATA_DIR="data"
 INPUT_ALN="${DATA_DIR}/orig/supermatrix_dna.phy"
-OUTPUT_ALN_DIR="${DATA_DIR}/jacknife/aln"
+OUTPUT_ALN_DIR="${DATA_DIR}/jackknife/aln"
 
 # check for existence of needed input files
 EXIT_EARLY=0

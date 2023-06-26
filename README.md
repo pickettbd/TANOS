@@ -1,3 +1,13 @@
+**⛔ DEPRECATION NOTICE ⛔**
+
+This project has been moved to [ridgelab/TANOS](https://github.com/ridgelab/TANOS).
+
+---
+<br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br />
+
 # TANOS: TAxon jackknife for NOdal Stability
 
 ## Table of Contents
@@ -25,7 +35,7 @@ given tree and 50 replicates are performed for the removal of each taxon then
 5,000 new trees are built. These new trees can be provided with the original tree
 to our package for comparison to determine how robust a given clade is to varying
 sampling. The intent is to assign a value to each node, similar to bootstrapping.
-A value of 1 indicates 100% of sampled trees includes the grouping in that clade
+A value of 1 indicates 100% of sampled trees include the grouping in that clade
 (sans the one taxon intentionally removed). Valid values fit in the range [0,1].
 Note that this value has no meaning for leaf nodes, parents of leaf nodes, and
 the root node.
